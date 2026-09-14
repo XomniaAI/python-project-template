@@ -11,6 +11,8 @@ _exclude:
 _tasks:
   - "git init"
   - "git checkout -b main"
+  - "uv sync"
+  - "uv run pre-commit install"
 
 # Questions
 
