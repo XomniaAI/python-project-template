@@ -1,21 +1,4 @@
 {
-  "sandbox": {
-    "enabled": true,
-    "autoAllowBashIfSandboxed": true,
-    "excludedCommands": [
-      "docker",
-      "git"
-    ],
-    "network": {
-      "allowedDomains": [
-        "github.com"
-      ],
-      "allowUnixSockets": [
-        "/var/run/docker.sock"
-      ],
-      "allowLocalBinding": true
-    }
-  },
   "permissions": {
     "allow": [
       "Bash(git commit *)",
@@ -31,5 +14,22 @@
       "Read(.env.*)",
       "Read(~/.aws/**)"
     ]
+  },
+  "sandbox": {
+    "autoAllowBashIfSandboxed": true,
+    "enabled": true,
+    "excludedCommands": [
+      "docker",
+      "git"
+    ],
+    "network": {
+      "allowLocalBinding": true,
+      "allowUnixSockets": [
+        "/var/run/docker.sock"
+      ],
+      "allowedDomains": [
+        "github.com"
+      ]
+    }
   }
 }
