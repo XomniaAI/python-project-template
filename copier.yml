@@ -13,6 +13,12 @@ _tasks:
   - "git checkout -b main"
   - "uv sync"
   - "uv run pre-commit install"
+  - "git add -A"
+  - "git commit -m \"chore: initial commit\""
+  - command: gh repo create {{ github_username }}/{{ project_github_name }} --source=. --push --private
+    when: "{{ push_to_github }}"
+  - command: "gh api --method PUT -H \"Accept: application/vnd.github+json\" repos/{{ github_username }}/{{ project_github_name }}/branches/main/protection --input branch_protection_rules.json"
+    when: "{{ push_to_github }}"
 
 # Questions
 
@@ -29,7 +35,7 @@ author_email:
 github_username:
   type: str
   help: GitHub username or organization
-  default: "{{ author_name | lower | replace(' ', '') }}"
+  default: "XomniaAi"
 
 project_name:
   type: str
@@ -52,6 +58,11 @@ project_slug:
     project_slug must be a valid Python package name: lowercase letters, digits
     and underscores only, and it may not start with a digit.
     {% endif %}
+
+project_github_name:
+  type: str
+  default: "{{ project_slug | lower | replace('_', '-') }}"
+  when: false
 
 project_short_description:
   type: str
@@ -80,4 +91,11 @@ include_hexagonal:
     Scaffold a hexagonal (ports-and-adapters) architecture? Adds domain/services/
     adapters layers with an example slice, plus import-linter contracts that
     enforce the layer boundaries.
+  default: true
+
+push_to_github:
+  type: bool
+  help: >-
+    Push the repository to GitHub. Auto-applies standard branch protection rules
+    standard for trunk-based development. (e.g. one main branch)
   default: true
