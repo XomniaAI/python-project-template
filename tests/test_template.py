@@ -47,6 +47,7 @@ COPIER_DATA = {
     "project_short_description": "A test project.",
     "version": "0.1.0",
     "license": "MIT",
+    "push_to_github": False
 }
 
 
@@ -327,7 +328,7 @@ def test_default_slug_is_valid_package_name(tmp_path):
     copier.run_copy(
         src_path=str(TEMPLATE_ROOT),
         dst_path=str(dst),
-        data={"author_name": "Joe Doe", "author_email": "joe@example.com"},
+        data={"author_name": "Joe Doe", "author_email": "joe@example.com", "push_to_github": False},
         defaults=True,
         unsafe=True,
         vcs_ref="HEAD",

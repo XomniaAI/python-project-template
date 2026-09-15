@@ -13,6 +13,10 @@ _tasks:
   - "git checkout -b main"
   - "uv sync"
   - "uv run pre-commit install"
+  - "git add -A"
+  - "git commit -m \"chore: initial commit\""
+  - command: gh repo create {{ github_username }}/{{ project_github_name }} --source=. --push --private
+    when: "{{ push_to_github }}"
 
 # Questions
 
@@ -53,6 +57,11 @@ project_slug:
     and underscores only, and it may not start with a digit.
     {% endif %}
 
+project_github_name:
+  type: str
+  default: "{{ project_slug | lower | replace('_', '-') }}"
+  when: false
+
 project_short_description:
   type: str
   help: A short description of the project
@@ -80,4 +89,11 @@ include_hexagonal:
     Scaffold a hexagonal (ports-and-adapters) architecture? Adds domain/services/
     adapters layers with an example slice, plus import-linter contracts that
     enforce the layer boundaries.
+  default: true
+
+push_to_github:
+  type: bool
+  help: >-
+    Push the repository to GitHub. Auto-applies standard branch protection rules
+    standard for trunk-based development. (e.g. one main branch)
   default: true
