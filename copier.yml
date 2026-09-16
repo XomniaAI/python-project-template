@@ -20,6 +20,9 @@ _tasks:
   - command: "gh api --method PUT -H \"Accept: application/vnd.github+json\" repos/{{ github_username }}/{{ project_github_name }}/branches/main/protection --input branch_protection_rules.json"
     when: "{{ push_to_github }}"
   - rm branch_protection_rules.json
+  - command: uvx copier copy git@github.com:XomniaAI/copier-claude-devcontainer.git "$(pwd)"
+    when: "{{ install_claude_devcontainer }}"
+  
 
 # Questions
 
@@ -100,3 +103,11 @@ push_to_github:
     Push the repository to GitHub. Auto-applies standard branch protection rules
     standard for trunk-based development. (e.g. one main branch)
   default: true
+
+install_claude_devcontainer:
+  type: bool
+  help: >-
+    Install Xomnia-authored Python + Claude Code devcontainer, which which comes
+    with uv, pre-commit, the GitHub CLI, a zsh/Powerlevel10k shell, a curated 
+    set of Claude Code plugins, and a default-deny network firewall.
+  default: false
