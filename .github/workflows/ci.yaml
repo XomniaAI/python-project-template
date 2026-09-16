@@ -24,6 +24,10 @@ jobs:
         uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
       - name: Install dependencies
         run: uv sync
+      - name: Set git identity
+        run: |
+          git config --global user.email "ci-example-user@xomnia.com"
+          git config --global user.name "CI Example User"
       - name: Run pytest
         run: uv run pytest
   # Single aggregate check to require in the branch ruleset. It depends on
